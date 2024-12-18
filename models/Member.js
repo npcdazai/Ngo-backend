@@ -1,20 +1,21 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const memberSchema = new mongoose.Schema({
+const MemberSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    trim: true,
   },
   role: {
     type: String,
     required: true,
+    trim: true,
   },
   image: {
-    type: String, // Store image path or URL
+    type: String,
     required: true,
+    trim: true, // Path to the image
   },
 });
 
-const Member = mongoose.model('Member', memberSchema);
-
-module.exports = Member;
+module.exports = mongoose.model("Member", MemberSchema);

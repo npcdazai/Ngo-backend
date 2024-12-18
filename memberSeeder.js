@@ -1,42 +1,30 @@
 const mongoose = require('mongoose');
-const Member = require('./models/Member');
+const Member = require('./models/Member'); // Adjust the path to your Member model
+const membersData = require('./members.json'); // Adjust the path to your JSON file
 
-const MONGO_URI="mongodb+srv://gilli:gilli12@cluster0.avhtgri.mongodb.net/temple?retryWrites=true&w=majority&appName=Cluster0"
+// MongoDB connection
+mongoose.connect('mongodb+srv://gilli:gilli12@cluster0.avhtgri.mongodb.net/temple?retryWrites=true&w=majority&appName=Cluster0', { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB connected'))
+  .catch((err) => console.error('MongoDB connection failed:', err));
 
+// Function to seed data
+const seedMembers = async () => {
+  try {
+    // Remove existing data (optional)
+    await Member.deleteMany({});
+    console.log('Existing members removed');
 
-const membersData = [
-    { name: "Aashutos Upadyyay", role: "Member", image: "../src/assets/Images/members/images/Aashutos.jpg" },
-    { name: "Ajay Tiwari", role: "Member", image: "../src/assets/Images/members/images/ajay.jpg" },
-    { name: "Ambuj Dubey", role: "Member", image: "../src/assets/Images/members/images/ambuj.jpg" },
-    { name: "Amit Tiwari", role: "Member", image: "../src/assets/Images/members/images/Amit.jpg" },
-    { name: "Anjani Shukla", role: "Member", image: "../src/assets/Images/members/images/Anjani.jpg" },
-    { name: "Ankus Tiwari", role: "Member", image: "../src/assets/Images/members/images/Ankus.jpg" },
-    { name: "Awadhes Tiwari", role: "Member", image: "../src/assets/Images/members/images/awadhes.jpg" },
-    { name: "Banarsi Lal", role: "Member", image: "../src/assets/Images/members/images/banarsi.jpg" },
-    { name: "Prashant Tiwari", role: "Member", image: "../src/assets/Images/members/images/Prsant.jpg" },
-    { name: "Dhanesh Dubey", role: "Member", image: "../src/assets/Images/members/images/Dhanesh.jpg" },
-    { name: "Munna Singh", role: "Member", image: "../src/assets/Images/members/images/Munna.jpg" },
-    { name: "Pankaj Gupta", role: "Member", image: "../src/assets/Images/members/images/Pankaj.jpg" },
-    { name: "Rupesh Tiwari", role: "Member", image: "../src/assets/Images/members/images/Rupesh.jpg" },
-    { name: "Sandeep Singh", role: "Member", image: "../src/assets/Images/members/images/sandeep.jpg" },
-    { name: "Santosh Tiwari", role: "Member", image: "../src/assets/Images/members/images/Santosh.jpg" },
-    { name: "Shubhas Tiwari", role: "Member", image: "../src/assets/Images/members/images/Shubhas.jpg" },
-    { name: "Suraj Tiwari", role: "Member", image: "../src/assets/Images/members/images/Suraj.jpg" },
-    { name: "Syam Mohan Tiwari", role: "Member", image: "../src/assets/Images/members/images/Syam.jpg" },
-    { name: "Sanjay Tiwari", role: "Member", image: "../src/assets/Images/members/images/Sanjay.jpg" },
-    { name: "Dinesh Tiwari", role: "Member", image: "../src/assets/Images/members/images/dinesh.jpg" }
-  ];
-  
+    // Insert new data
+    await Member.insertMany(membersData);
+    console.log('Members added successfully');
 
-mongoose.connect(MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(async () => {
-  console.log('Connected to MongoDB');
-  await Member.deleteMany({}); // Optional: clear existing data
-  await Member.insertMany(membersData);
-  console.log('Members added');
-  mongoose.disconnect();
-}).catch((err) => {
-  console.error('Error', err);
-});
+    // Close the connection
+    mongoose.disconnect();
+  } catch (error) {
+    console.error('Error seeding members:', error);
+    mongoose.disconnect();
+  }
+};
+
+// Run the function
+seedMembers();
