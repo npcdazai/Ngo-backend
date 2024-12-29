@@ -4,7 +4,7 @@ const cors = require("cors");
 const multer = require('multer');
 const path = require('path');
 const dotenv = require("dotenv");
-const memberRoutes = require("./routes/memberRoutes");  // <-- Add this line
+const memberRoutes = require("./routes/memberRoutes");  
 const poojaRoutes = require("./routes/poojaRoutes");
 const poojaBookingsRoutes = require("./routes/poojaBookingRoutes");
 dotenv.config();
@@ -15,6 +15,7 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static('uploads'));
 
 // MongoDB connection
 mongoose
