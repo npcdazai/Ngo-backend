@@ -15,6 +15,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const memberRoutes = require("./routes/memberRoutes");  
 const poojaRoutes = require("./routes/poojaRoutes");
+const eventRoutes = require("./routes/eventRoutes");
 const poojaBookingsRoutes = require("./routes/poojaBookingRoutes");
 dotenv.config();
 
@@ -41,6 +42,7 @@ app.get("/", (req, res) => {
 // Routes
 app.use('/api', memberRoutes);
 app.use('/api', poojaRoutes);
+app.use('/api', eventRoutes);
 app.use('/api/poojaBookings', poojaBookingsRoutes);
 
 app.listen(PORT, () => {
